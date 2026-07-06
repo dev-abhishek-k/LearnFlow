@@ -16,10 +16,10 @@ import { LoginResponse,RegisterInput } from "./auth.types";
         HTTP_STATUS.CONFLICT,
       );
     }
-    const hashedPassword = await hashPassword(data.Password);
+    const hashedPassword = await hashPassword(data.password );
     return  authRepository.createUser({
-      ...data,
-      Password: hashedPassword,
+      ...data,  
+      password: hashedPassword,
     });
   }
   async Login(email: string, Password: string): Promise<LoginResponse> {
@@ -30,7 +30,7 @@ import { LoginResponse,RegisterInput } from "./auth.types";
         HTTP_STATUS.UNAUTHORIZED
       );
     }
-    const isMatch = await comparePassword(Password, user.Password);
+    const isMatch = await comparePassword(Password, user.password);
     if (!isMatch) {
       throw new ApiError(
         AUTH_MESSAGES.INVALID_CREDENTIALS,

@@ -8,5 +8,7 @@ export const registerSchema = zod.object({
 
 export const loginSchema = zod.object({
     email: zod.string().email("Invalid email address").toLowerCase(),
-    password: zod.string().min(6, "Password must be at least 6 characters long").max(16)            
+    Password: zod.string().min(6, "Password must be at least 6 characters long").max(16)            
 });
+
+    

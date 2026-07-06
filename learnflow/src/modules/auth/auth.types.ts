@@ -2,7 +2,7 @@ import { User } from "@/generated/prisma/client";
 export interface RegisterInput {
   name: string;
   email: string;
-  Password: string;
+  password: string;
 }
 
 export interface LoginResponse {
