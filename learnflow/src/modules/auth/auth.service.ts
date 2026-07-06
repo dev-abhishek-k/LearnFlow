@@ -1,6 +1,5 @@
 import { authRepository } from "./auth.repository";
 import { ApiError } from "@/lib/api-error";
-import { ApiResponse } from "@/lib/api-response";
 import { HTTP_STATUS } from "@/lib/http-status";
 import { hashPassword, comparePassword } from "@/lib/auth/password";
 import type {  User } from "@/generated/prisma/client";
