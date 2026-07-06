@@ -7,7 +7,7 @@ import { generateAccessToken,generateRefreshToken } from "@/lib/auth/jwt";
 import { AUTH_MESSAGES } from "./auth.constants";
 import { LoginResponse,RegisterInput } from "./auth.types";
 
-export class AuthService {
+ class AuthService {
   async register(data: RegisterInput): Promise<User> {
     const existinguser = await authRepository.findUserByEmail(data.email);
     if (existinguser) {
@@ -16,13 +16,13 @@ export class AuthService {
         HTTP_STATUS.CONFLICT,
       );
     }
-    const hashedPassword = await hashPassword(data.password);
+    const hashedPassword = await hashPassword(data.Password);
     return  authRepository.createUser({
       ...data,
       Password: hashedPassword,
     });
   }
-  async Login(email: string, password: string): Promise<LoginResponse> {
+  async Login(email: string, Password: string): Promise<LoginResponse> {
     const user = await authRepository.findUserByEmail(email);
     if (!user) {
       throw new ApiError(
@@ -30,7 +30,7 @@ export class AuthService {
         HTTP_STATUS.UNAUTHORIZED
       );
     }
-    const isMatch = await comparePassword(password, user.Password);
+    const isMatch = await comparePassword(Password, user.Password);
     if (!isMatch) {
       throw new ApiError(
         AUTH_MESSAGES.INVALID_CREDENTIALS,
@@ -42,3 +42,4 @@ export class AuthService {
     return { user, accessToken , refreshToken  }; };
   }                     
 
+export const authService = new AuthService();
