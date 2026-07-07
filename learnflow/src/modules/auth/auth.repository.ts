@@ -20,6 +20,11 @@ export class AuthRepository {
             }
         });
     }
+    async updateRefreshToken(userId: string, hashedRefreshToken: string): Promise<User> {
+        return await prisma.user.update({
+            where: { id: userId },
+            data: { refreshToken: hashedRefreshToken },
+        });
 }
-            
+}            
 export const authRepository = new AuthRepository();

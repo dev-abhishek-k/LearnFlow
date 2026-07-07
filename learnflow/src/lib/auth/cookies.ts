@@ -1,9 +1,9 @@
 import {cookies} from "next/headers";
 
-export async function setAccessTokenCookie(token: string,) {
+export async function setRefreshTokenCookie(token: string,) {
     const cookieStore = await  cookies();
     cookieStore.set({
-        name: "access_token",
+        name: "refresh_token",
         value: token,
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
@@ -11,12 +11,12 @@ export async function setAccessTokenCookie(token: string,) {
         maxAge: 60 * 60 * 24 * 30, // 30 days
     });
 }
-export async function getAccessTokenCookie(): Promise<string | undefined> {
+export async function getRefreshTokenCookie(): Promise<string | undefined> {
     const cookieStore = await cookies();
-    const accessTokenCookie = cookieStore.get("access_token");
-    return accessTokenCookie?.value;
+    const refreshTokenCookie = cookieStore.get("refresh_token");
+    return refreshTokenCookie?.value;
 }   
- export async function deleteAccessTokenCookie() {
+ export async function deleteRefreshTokenCookie () {
     const cookieStore = await cookies();
-    cookieStore.delete("access_token");
+    cookieStore.delete("refresh_token");
 }

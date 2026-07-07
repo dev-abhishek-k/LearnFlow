@@ -11,11 +11,12 @@ model User {
   id                  String               @id @default(cuid())
   email               String               @unique
   name                String?
-  password            String
   EmailVerified       Boolean              @default(false)
   createdAt           DateTime             @default(now())
   updatedAt           DateTime             @updatedAt
   role                Role                 @default(STUDENT)
+  refreshToken        String?              @unique
+  password            String
   accounts            Account[]
   loginhistories      LoginHistory[]
   passwordresettokens PasswordResetToken[]

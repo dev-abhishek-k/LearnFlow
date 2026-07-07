@@ -2,11 +2,11 @@
 import jwt, { SignOptions } from "jsonwebtoken";
 import crypto from "crypto";
 export interface JwtPayload {
-    Id: string; 
+    id: string; 
     role: string;
 }
 export interface RefreshTokenPayload {
-    Id: string;
+    id: string;
 }
 interface RandomToken {
     rawToken: string;
@@ -18,14 +18,14 @@ const ACCESS_TOKEN_EXPIRATION = process.env.ACCESS_TOKEN_EXPIRATION as SignOptio
 const REFRESH_TOKEN_EXPIRATION = process.env.REFRESH_TOKEN_EXPIRATION as SignOptions["expiresIn"];
 
 export const generateAccessToken = (payload: JwtPayload): string => {
-    return jwt.sign({payload}, ACCESS_TOKEN_SECRET, { expiresIn: ACCESS_TOKEN_EXPIRATION });
+    return jwt.sign(payload, ACCESS_TOKEN_SECRET, { expiresIn: ACCESS_TOKEN_EXPIRATION });
 };
 
 export const verifyAccessToken = (token: string): JwtPayload => {
     return jwt.verify(token, ACCESS_TOKEN_SECRET) as JwtPayload;
 };
 export const generateRefreshToken = (payload: RefreshTokenPayload): string => {
-    return jwt.sign({payload}, REFRESH_TOKEN_SECRET, { expiresIn: REFRESH_TOKEN_EXPIRATION });
+    return jwt.sign(payload, REFRESH_TOKEN_SECRET, { expiresIn: REFRESH_TOKEN_EXPIRATION });
 };
 
 export const verifyRefreshToken = (token: string): RefreshTokenPayload => {

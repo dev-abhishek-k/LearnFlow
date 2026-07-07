@@ -4,11 +4,25 @@ import { ApiError } from "@/lib/api-error";
 import { HTTP_STATUS } from "@/lib/http-status";
 import { hashPassword, comparePassword } from "@/lib/auth/password";
 import type {  User } from "@/generated/prisma/client";
-import { generateAccessToken,generateRefreshToken } from "@/lib/auth/jwt";
+import { generateAccessToken,generateRefreshToken, verifyRefreshToken } from "@/lib/auth/jwt";
 import { AUTH_MESSAGES } from "./auth.constants";
 import { LoginResponse,RegisterInput, LoginInput } from "./auth.types";
-
-
+import crypto from "crypto";
+const hashToken = (token: string) => {
+  const hash = crypto.createHash("sha256").update(token).digest("hex");
+  return hash;
+};
+    function toSafeUser(user: User) {
+  return {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    role: user.role,
+    EmailVerified: user.EmailVerified,
+    createdAt: user.createdAt,
+    updatedAt: user.updatedAt,
+  };
+}
  class AuthService {
   async register(data: RegisterInput): Promise<User> {
     const existinguser = await authRepository.findUserByEmail(data.email);
@@ -39,21 +53,30 @@ import { LoginResponse,RegisterInput, LoginInput } from "./auth.types";
         HTTP_STATUS.UNAUTHORIZED
       );
     }
-    const accessToken = generateAccessToken({Id:user.id,role:user.role});
-    const refreshToken = generateRefreshToken({Id:user.id}); 
+    const accessToken = generateAccessToken({id:user.id,role:user.role});
+    const refreshToken = generateRefreshToken({id:user.id}); 
+    const hashedRefreshToken = hashToken(refreshToken);
+    await authRepository.updateRefreshToken(user.id,hashedRefreshToken);
 
-     function toSafeUser(user: User) {
-  return {
-    id: user.id,
-    name: user.name,
-    email: user.email,
-    role: user.role,
-    EmailVerified: user.EmailVerified,
-    createdAt: user.createdAt,
-    updatedAt: user.updatedAt,
-  };
-}
-    return { user: toSafeUser(user), accessToken,refreshToken  }; };
-  }                     
  
+return { user: toSafeUser(user), accessToken, refreshToken }; };
+
+async refresh(refreshToken: string) {
+  if(!refreshToken) {
+    throw new ApiError(AUTH_MESSAGES.INVALID_CREDENTIALS, HTTP_STATUS.UNAUTHORIZED);
+  }
+    const decoded = verifyRefreshToken(refreshToken);  
+    const user = await authRepository.findUserById(decoded.id);
+    if (!user) {
+      throw new ApiError(AUTH_MESSAGES.INVALID_CREDENTIALS, HTTP_STATUS.UNAUTHORIZED);
+    }
+    if ( user.refreshToken !== hashToken(refreshToken)) {
+      throw new ApiError(AUTH_MESSAGES.INVALID_CREDENTIALS, HTTP_STATUS.UNAUTHORIZED);
+    } 
+    const accessToken = generateAccessToken({id:user.id,role:user.role});
+    
+    return { accessToken,  };
+  } 
+  }                     
+
 export const authService = new AuthService();

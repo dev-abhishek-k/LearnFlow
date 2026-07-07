@@ -1,5 +1,6 @@
+
 import { User } from "@/generated/prisma/client";
-type SafeUser = Omit<User, "password">;
+type SafeUser = Omit<User, "password" | "refreshToken">;
 export interface RegisterInput {
   name: string;
   email: string;
@@ -8,6 +9,7 @@ export interface RegisterInput {
 export interface LoginInput {
   email: string;
   password: string;
+  refreshToken?: string;
 }
 export interface LoginResponse {
   user: SafeUser;
