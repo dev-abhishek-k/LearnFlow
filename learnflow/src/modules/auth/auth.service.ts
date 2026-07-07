@@ -61,7 +61,7 @@ const hashToken = (token: string) => {
  
 return { user: toSafeUser(user), accessToken, refreshToken }; };
 
-async refresh(refreshToken: string) {
+async refresh(refreshToken: string | undefined) {
   if(!refreshToken) {
     throw new ApiError(AUTH_MESSAGES.INVALID_CREDENTIALS, HTTP_STATUS.UNAUTHORIZED);
   }
@@ -74,8 +74,18 @@ async refresh(refreshToken: string) {
       throw new ApiError(AUTH_MESSAGES.INVALID_CREDENTIALS, HTTP_STATUS.UNAUTHORIZED);
     } 
     const accessToken = generateAccessToken({id:user.id,role:user.role});
-    
-    return { accessToken,  };
+    const newRefreshToken = generateRefreshToken({
+  id: user.id,
+});
+
+const hashedRefreshToken = hashToken(newRefreshToken);
+
+await authRepository.updateRefreshToken(
+  user.id,
+  hashedRefreshToken
+);
+
+    return { accessToken, refreshToken: newRefreshToken };
   } 
   }                     
 
