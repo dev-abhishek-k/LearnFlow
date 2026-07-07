@@ -16,7 +16,7 @@ export async function getRefreshTokenCookie(): Promise<string | undefined> {
     const refreshTokenCookie = cookieStore.get("refresh_token");
     return refreshTokenCookie?.value;
 }   
- export async function deleteRefreshTokenCookie () {
+ export async function clearRefreshTokenCookie () {
     const cookieStore = await cookies();
     cookieStore.delete("refresh_token");
 }

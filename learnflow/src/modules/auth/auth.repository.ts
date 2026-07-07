@@ -26,5 +26,10 @@ export class AuthRepository {
             data: { refreshToken: hashedRefreshToken },
         });
 }
+async clearRefreshToken(userId:string){
+    return await prisma.user.update({
+        where: { id: userId },
+        data: { refreshToken: null },
+    });}
 }            
 export const authRepository = new AuthRepository();
