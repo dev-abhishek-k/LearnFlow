@@ -9,7 +9,7 @@ import {
   verifyRefreshToken,
 } from "@/lib/auth/jwt";
 import { AUTH_MESSAGES } from "./auth.constants";
-import { LoginResponse, RegisterInput, LoginInput } from "./auth.types";
+import { LoginResponse, RegisterInput, LoginInput, MeResponse, } from "./auth.types";
 import crypto from "crypto";
 const hashToken = (token: string) => {
   const hash = crypto.createHash("sha256").update(token).digest("hex");
@@ -100,6 +100,16 @@ class AuthService {
     console.log("userId", userId);
     await authRepository.clearRefreshToken(userId);
   }
+  async me(id: string): Promise<MeResponse>{ {
+    const user = await authRepository.findUserById(id);
+    if (!user) {
+      throw new ApiError(
+        AUTH_MESSAGES.INVALID_CREDENTIALS,
+        HTTP_STATUS.UNAUTHORIZED,
+      );
+    }
+    return toSafeUser(user);
+  }
 }
-
+}
 export const authService = new AuthService();
