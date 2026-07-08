@@ -1,9 +1,10 @@
 
 import jwt, { SignOptions } from "jsonwebtoken";
 import crypto from "crypto";
+import {Role} from "@/generated/prisma/enums"
 export interface JwtPayload {
     id: string; 
-    role: string;
+    role: Role;
 }
 export interface RefreshTokenPayload {
     id: string;
