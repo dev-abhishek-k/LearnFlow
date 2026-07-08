@@ -32,5 +32,19 @@ async clearRefreshToken(userId:string){
         where: { id: userId },
         data: { refreshToken: null },
     });}
+ async findCurrentuser(id: string) {
+     return await prisma.user.findUnique({
+          where: {
+              id
+          },
+          select:{
+            id:true,
+            name:true,
+            email:true,
+            role:true,
+
+          }
+     })
+ }
 }            
 export const authRepository = new AuthRepository();

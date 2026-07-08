@@ -22,6 +22,7 @@ export interface MeResponse {
   name: string | null;
   email: string;
   role: Role;
+ 
 }
 
 

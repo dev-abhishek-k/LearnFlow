@@ -101,14 +101,14 @@ class AuthService {
     await authRepository.clearRefreshToken(userId);
   }
   async me(id: string): Promise<MeResponse>{ {
-    const user = await authRepository.findUserById(id);
+    const user = await authRepository.findCurrentuser(id);
     if (!user) {
       throw new ApiError(
         AUTH_MESSAGES.INVALID_CREDENTIALS,
         HTTP_STATUS.UNAUTHORIZED,
       );
     }
-    return toSafeUser(user);
+    return user ;
   }
 }
 }
