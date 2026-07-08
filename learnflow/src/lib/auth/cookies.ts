@@ -11,6 +11,17 @@ export async function setRefreshTokenCookie(token: string,) {
         maxAge: 60 * 60 * 24 * 30, // 30 days
     });
 }
+export async function setAccessTokenCookie(token: string,) {
+    const cookieStore = await  cookies();
+    cookieStore.set({
+        name: "access_token",
+        value: token,
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+        maxAge: 60 * 60 * 24 * 30, // 30 days
+    });
+}
 export async function getRefreshTokenCookie(): Promise<string | undefined> {
     const cookieStore = await cookies();
     const refreshTokenCookie = cookieStore.get("refresh_token");
