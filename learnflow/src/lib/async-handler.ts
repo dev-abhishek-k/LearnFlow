@@ -1,22 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ApiError } from "@/lib/api-error";
 
-
 type RouteContext<T = Record<string, string>> = {
   params: Promise<T>;
 };
 
 type RouteHandler<T = Record<string, string>> = (
   req: NextRequest,
-  context: RouteContext<T>
+  context: RouteContext<T>,
 ) => Promise<NextResponse>;
 
 export function asyncHandler<T = Record<string, string>>(
-  handler: RouteHandler<T>
+  handler: RouteHandler<T>,
 ) {
   return async (
     req: NextRequest,
-    context: RouteContext<T>
+    context: RouteContext<T>,
   ): Promise<NextResponse> => {
     try {
       return await handler(req, context);
@@ -30,7 +29,7 @@ export function asyncHandler<T = Record<string, string>>(
           },
           {
             status: error.statusCode,
-          }
+          },
         );
       }
 
