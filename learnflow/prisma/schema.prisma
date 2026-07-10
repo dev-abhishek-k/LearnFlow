@@ -23,6 +23,7 @@ model User {
   refreshtokens       RefreshToken[]
   sessions            Session[]
   verificationtokens  VerficationToken[]
+  courses             Course[]             @relation("TeacherCourses")
 }
 
 model Session {
@@ -94,10 +95,47 @@ enum Role {
   TEACHER
   STUDENT
 }
-model Category{
-  id  String @id @default(cuid())
-  name String 
-  slug String @unique
+
+model Category {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique
+  courses   Course[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Course {
+  id String @id @default(cuid())
+
+  title       String
+  slug        String  @unique
+  description String
+  thumbnail   String?
+  price       Decimal @db.Decimal(10, 2)
+
+  level    CourseLevel
+  language String
+  status   CourseStatus @default(DRAFT)
+
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  teacherId String
+  teacher   User   @relation("TeacherCourses", fields: [teacherId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum CourseStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum CourseLevel {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
 }
