@@ -8,12 +8,14 @@ import {
 } from "./index";
 import { ApiResponse } from "@/lib/api-response";   
 import type {NextResponse} from "next/server";
+
  class CategoryController {
     async createCategory(request: NextRequest) {
       const body = await validateRequest(
         request,
          createCategorySchema
       )
+     
       const category = await categoryService.createCategory(body);
       return ApiResponse.ok(CategoryMessage.CATEGORY_CREATED, category);
     }  

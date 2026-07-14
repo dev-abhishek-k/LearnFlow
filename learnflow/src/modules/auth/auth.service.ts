@@ -3,6 +3,7 @@ import { ApiError } from "@/lib/api-error";
 import { HTTP_STATUS } from "@/lib/http-status";
 import { hashPassword, comparePassword } from "@/lib/auth/password";
 import type { User } from "@/generated/prisma/client";
+import { setAccessTokenCookie, setRefreshTokenCookie } from "@/lib/auth/cookies";
 import {
   generateAccessToken,
   generateRefreshToken,
@@ -58,6 +59,8 @@ class AuthService {
     }
     const accessToken = generateAccessToken({ id: user.id, role: user.role });
     const refreshToken = generateRefreshToken({ id: user.id });
+    await setAccessTokenCookie(accessToken);
+await setRefreshTokenCookie(refreshToken);  
     const hashedRefreshToken = hashToken(refreshToken);
     await authRepository.updateRefreshToken(user.id, hashedRefreshToken);
 

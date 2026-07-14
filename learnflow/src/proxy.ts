@@ -10,6 +10,7 @@ import { PUBLIC_ROUTES } from "@/lib/public-routes";
 export const proxy = asyncHandler(async (request: NextRequest) => {
 
   const { pathname } = request.nextUrl;
+
 if (PUBLIC_ROUTES.includes(pathname)) {
     return NextResponse.next();
   }
@@ -27,14 +28,15 @@ if (PUBLIC_ROUTES.includes(pathname)) {
 
   // Role-based permission check
   for (const [route, allowedRoles] of Object.entries(ROUTE_PERMISSIONS)) {
-    if (pathname.startsWith(route)) {
-      if (!hasPermission(payload.role, allowedRoles)) {
-        return NextResponse.redirect(
-          new URL("/unauthorized", request.url)
-        );
-      }
+  if (pathname.startsWith(route)) {
+    if (!hasPermission(payload.role, allowedRoles)) {
+      return NextResponse.json(
+        { message: "Forbidden" },
+        { status: 403 }
+      );
     }
   }
+}
 
   return NextResponse.next();
 });
@@ -44,6 +46,8 @@ export const config = {
     "/dashboard/:path*",
     "/profile/:path*",
     "/admin/:path*",
-    "/instructor/:path*",
+    "/teacher/:path*",
+     "/api/admin/:path*",
+    "/api/teacher/:path*",
   ],
 };

@@ -1,15 +1,16 @@
-import { NextResponse } from "next/server";
 import {COURSE_MESSAGES} from "./index";
 import {ApiResponse} from "@/lib/api-response";
 import {NextRequest} from "next/server";
 import { validateRequest } from "@/lib/validator";
 import {createCourseSchema,updateCourseSchema,} from "./index"
 import {courseService} from './index'
+import {getCurrentUserPayload} from "@/lib/auth/current_user";
 class CourseController{
    async createCourse(request:NextRequest){
-    const user=await request.json();
+      const payload=await getCurrentUserPayload();
+      console.log("payload",payload);
        const body=await validateRequest(request,createCourseSchema);
-       const teacherId=user.id;
+       const teacherId=payload.id;
        const course=await courseService.createCourse(body,teacherId );
        return ApiResponse.ok(COURSE_MESSAGES.COURSE_CREATED,course);
    }
