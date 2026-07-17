@@ -5,5 +5,5 @@ export const COURSE_MESSAGES={
     COURSE_DELETED:"Course Deleted Successfully",
     COURSE_ALREADY_EXISTS:"Course Already Exists",
     COURSE_NOT_CREATED:"Course Not Created",
-    COURSE_FETCHED:"Course Fetched Successfully"    
+    COURSE_FETCHED:"Course Fetched Successfully",    
 }
