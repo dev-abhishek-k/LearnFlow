@@ -9,7 +9,7 @@ class SectionService{
     async createSection(data:Prisma.SectionUncheckedCreateInput){
         const user= await getCurrentUserPayload();
         const course= await courseRepository.getCourseById(data.courseId);
-        if(!course){throw new ApiError(SECTION_MESSAGES.SECTION_NOT_FOUND,HTTP_STATUS.NOT_FOUND)}
+        if(!course){throw new ApiError(SECTION_MESSAGES.COURSE_NOT_CREATED,HTTP_STATUS.NOT_FOUND)}
         if(course.teacherId!==user.id){throw new ApiError("forbidden",HTTP_STATUS.FORBIDDEN)}    
         return await sectionRepository.createSection(data)
 
