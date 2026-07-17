@@ -7,20 +7,20 @@ class CourseRepository{
           ...data,
       }})
      }
-     async updateCourse(id:string,data:Prisma.CourseUpdateInput){ 
-      return prisma.course.update({where:{id},data})
+     async updateCourse(courseId:string,data:Prisma.CourseUpdateInput){ 
+      return prisma.course.update({where:{id:courseId},data})
      }
      async getAllCourse():Promise<Course[]>{
           return prisma.course.findMany()    
      }
-     async getCourseById(id:string):Promise<Course | null>{
-          return prisma.course.findUnique({where:{id}})
+     async getCourseById(courseId:string):Promise<Course | null>{
+          return prisma.course.findUnique({where:{id:courseId}})
      }
      async getCourseFindBySlug(slug:string):Promise<Course | null>{
           return prisma.course.findUnique({where:{slug}})
      }
-     async deleteCourse(id:string  ){
-      return prisma.course.delete({where:{id}})
+     async deleteCourse(courseId:string  ){
+      return prisma.course.delete({where:{id:courseId}})
      }
 }
 

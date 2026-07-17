@@ -18,13 +18,13 @@ class CourseController{
        const course=await courseService.getAllCourse();
        return ApiResponse.ok(COURSE_MESSAGES.COURSE_FETCHED,course);
    }
-   async updateCourse(id:string,request:NextRequest){
+   async updateCourse(courseId:string,request:NextRequest){
        const body=await validateRequest(request,updateCourseSchema);
-       const course=await courseService.updateCourse(id,body);
+       const course=await courseService.updateCourse(courseId,body);
        return ApiResponse.ok(COURSE_MESSAGES.COURSE_UPDATED,course);
    }
-   async deleteCourse(id:string){
-       const course=await courseService.deleteCourse(id);
+   async deleteCourse(courseId:string){
+       const course=await courseService.deleteCourse(courseId);
        return ApiResponse.ok(COURSE_MESSAGES.COURSE_DELETED,course);    
    }
 }

@@ -2,11 +2,11 @@ import {asyncHandler} from "@/lib/async-handler";
 import { courseController } from "@/modules/course";
 
 export const PATCH=asyncHandler(async(request,context)=>{
-     const {id}=await context.params
-    return courseController.updateCourse(id,request);
+     const {courseId}=await context.params
+    return courseController.updateCourse(courseId,request);
 })
 
 export const DELETE=asyncHandler(async(request,context)=>{
-     const {id}=await context.params
-    return courseController.deleteCourse(id); 
+     const {courseId}=await context.params
+    return courseController.deleteCourse(courseId); 
 })

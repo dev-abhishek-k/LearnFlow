@@ -28,7 +28,7 @@ export const updateCourseSchema =
   ]),
 });
 export const courseParamsSchema = z.object({
-  id: z.string().cuid(),
+  courseId: z.string().cuid(),
 });
 export type CreateCourseInput =
   z.infer<typeof createCourseSchema>;

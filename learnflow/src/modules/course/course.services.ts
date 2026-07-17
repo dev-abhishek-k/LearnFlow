@@ -22,11 +22,11 @@ class CourseService{
     async getCourseFindBySlug(slug:string):Promise<Course | null>{
         return courseRepository.getCourseFindBySlug(slug);
     }
-    async updateCourse(id:string,data:Prisma.CourseUpdateInput){
-        return courseRepository.updateCourse(id,data);
+    async updateCourse(courseId:string,data:Prisma.CourseUpdateInput){
+        return courseRepository.updateCourse(courseId,data);
     }
-    async deleteCourse(id:string){
-        return courseRepository.deleteCourse(id);
+    async deleteCourse(courseId:string){
+        return courseRepository.deleteCourse(courseId);
     }
 }
 
