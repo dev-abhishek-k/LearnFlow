@@ -9,7 +9,5 @@ export const POST= asyncHandler(async(request)=>{
 export const GET=asyncHandler(async()=>{
     return sectionController.getAllSection(); 
 })
-export const PATCH=asyncHandler(async(request,context)=>{
-    const {sectionId}=await context.params
-    return sectionController.updateSection(sectionId,request);
-})
+
+
