@@ -4,7 +4,7 @@ import Link from "next/link";
 import { BookOpen, Menu } from "lucide-react";
 
 import Button from "@/components/common/button/Button";
-import { studentNavItems } from "@/components/common/navbar/student/Student-nav-items";
+import { studentNavItems } from "@/components/common/navbar/student/student-nav-items";
 
 const StudentNavbar = () => {
   return (
