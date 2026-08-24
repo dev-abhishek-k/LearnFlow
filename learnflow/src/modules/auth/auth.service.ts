@@ -100,7 +100,7 @@ await setRefreshTokenCookie(refreshToken);
     return { accessToken, refreshToken: newRefreshToken };
   }
   async logout(userId: string) {
-    console.log("userId", userId);
+
     await authRepository.clearRefreshToken(userId);
   }
   async me(id: string): Promise<MeResponse>{ {

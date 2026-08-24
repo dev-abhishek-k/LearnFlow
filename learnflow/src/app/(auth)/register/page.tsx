@@ -2,34 +2,71 @@ import RegisterForm from "@/modules/auth/components/register-form";
 
 export default function RegisterPage() {
   return (
-    <div className="grid min-h-screen lg:grid-cols-2">
-      {/* Left Side */}
-      <div className="hidden lg:flex flex-col justify-center bg-gradient-to-br from-violet-600 via-indigo-600 to-blue-600 p-16 text-white">
-        <h1 className="text-5xl font-bold">LearnFlow</h1>
+    <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#030712] px-4 text-white">
 
-        <p className="mt-6 max-w-md text-lg text-indigo-100">
-          Build your future with world-class courses and practical learning.
-        </p>
+      {/* ================= BACKGROUND ================= */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
 
-        <div className="mt-12 space-y-6">
-          <div className="rounded-xl bg-white/10 p-5 backdrop-blur">
-            📚 1000+ Courses
-          </div>
+        {/* Cyan Glow */}
+        <div
+          className="
+            absolute
+            -left-40
+            -top-40
+            h-[500px]
+            w-[500px]
+            rounded-full
+            bg-cyan-500/20
+            blur-[130px]
+          "
+        />
 
-          <div className="rounded-xl bg-white/10 p-5 backdrop-blur">
-            🎓 Track Your Progress
-          </div>
+        {/* Blue Glow */}
+        <div
+          className="
+            absolute
+            right-[-150px]
+            top-[10%]
+            h-[500px]
+            w-[500px]
+            rounded-full
+            bg-blue-600/20
+            blur-[130px]
+          "
+        />
 
-          <div className="rounded-xl bg-white/10 p-5 backdrop-blur">
-            🚀 Learn from Experts
-          </div>
-        </div>
+        {/* Violet Glow */}
+        <div
+          className="
+            absolute
+            bottom-[-200px]
+            left-[30%]
+            h-[500px]
+            w-[500px]
+            rounded-full
+            bg-violet-600/20
+            blur-[130px]
+          "
+        />
+
+        {/* Grid */}
+        <div
+          className="
+            absolute
+            inset-0
+            opacity-[0.035]
+            [background-image:linear-gradient(to_right,#fff_1px,transparent_1px),linear-gradient(to_bottom,#fff_1px,transparent_1px)]
+            [background-size:60px_60px]
+          "
+        />
+
       </div>
 
-      {/* Right Side */}
-      <div className="flex items-center justify-center bg-slate-50 p-6">
+      {/* ================= REGISTER FORM ================= */}
+      <div className="relative z-10 w-full max-w-md">
         <RegisterForm />
       </div>
-    </div>
+
+    </main>
   );
 }
