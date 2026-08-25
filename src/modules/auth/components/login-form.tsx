@@ -17,6 +17,8 @@ import {
   LoginInput,
 } from "@/modules/auth/auth.validation";
 import { useLogin } from "@/modules/auth/hooks/use-login";
+import { useRouter } from "next/navigation";
+import { getCurrentUser } from"@/modules/auth/api/auth.api";
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -24,7 +26,7 @@ import { Button } from "@/components/ui/button";
 
 export default function LoginForm() {
   const loginMutation = useLogin();
-
+  const router=useRouter();
   const form = useForm<LoginInput>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -36,11 +38,26 @@ export default function LoginForm() {
   async function onSubmit(data: LoginInput) {
     try {
       const result = await loginMutation.mutateAsync(data);
-
       toast.success(result.message || "Login successful!");
+      const getMe=await getCurrentUser();
+      
+      const role = getMe.user.role;
+            switch (role) {
+        case "ADMIN":
+          router.push("/admin");
+          break;
 
-      // Yahan baad mein dashboard redirect karenge
-      // router.push("/dashboard");
+        case "TEACHER":
+          router.push("/teacher");
+          break;
+
+        case "STUDENT":
+          router.push("/student");
+          break;
+
+        default:
+          console.error("Unknown user role");
+      }
     } catch (error) {
       console.error(error);
 

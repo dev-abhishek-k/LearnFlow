@@ -60,10 +60,10 @@ class AuthService {
     const accessToken = generateAccessToken({ id: user.id, role: user.role });
     const refreshToken = generateRefreshToken({ id: user.id });
     await setAccessTokenCookie(accessToken);
-await setRefreshTokenCookie(refreshToken);  
+    await setRefreshTokenCookie(refreshToken);  
     const hashedRefreshToken = hashToken(refreshToken);
     await authRepository.updateRefreshToken(user.id, hashedRefreshToken);
-
+          
     return { user: toSafeUser(user), accessToken, refreshToken };
   }
 

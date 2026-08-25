@@ -34,3 +34,15 @@ export async function loginUser(data: LoginInput) {
 
   return result;
 }
+export async function getCurrentUser() {
+  const response = await fetch("/api/auth/me", {
+    method: "GET",
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    throw new Error("Unauthorized");
+  }
+
+  return response.json();
+}

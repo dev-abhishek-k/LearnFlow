@@ -8,6 +8,10 @@ export const teacherNavItems = [
     href: "/teacher/courses",
   },
   {
+    label: "Create Course",
+    href: "/teacher/courses/create",
+  },
+  {
     label: "Students",
     href: "/teacher/students",
   },
