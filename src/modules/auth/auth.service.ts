@@ -102,6 +102,7 @@ class AuthService {
   async logout(userId: string) {
 
     await authRepository.clearRefreshToken(userId);
+    
   }
   async me(id: string): Promise<MeResponse>{ {
     const user = await authRepository.findCurrentuser(id);

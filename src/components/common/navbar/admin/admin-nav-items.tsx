@@ -11,4 +11,8 @@ export const adminNavItems = [
     label: "Courses",
     href: "/admin/courses",
   },
+  {
+    label: "Create Category",
+    href: "/admin/categories/create",
+  },
 ];

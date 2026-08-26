@@ -1,12 +1,29 @@
 "use client";
 
 import Link from "next/link";
+import {useRouter} from "next/navigation";
 import { BookOpen, Menu } from "lucide-react";
-
+import { LogOut } from "lucide-react";
+import { useLogout } from "@/modules/auth/hooks/use-logout";
 import Button from "@/components/common/button/Button";
 import { adminNavItems } from "@/components/common/navbar/admin/admin-nav-items";
 
 const AdminNavbar = () => {
+  const router=useRouter();
+  const logoutMutation = useLogout();
+
+  async function handleLogout() {
+    
+    try {
+      
+      await logoutMutation.mutateAsync();
+    
+      router.push("/login");
+      router.refresh();
+    } catch (error) {
+      console.error(error);
+    }
+  }
   return (
     <header className="sticky top-0 z-50 w-full px-4 pt-4 sm:px-6 lg:px-8">
       <nav
@@ -114,8 +131,11 @@ const AdminNavbar = () => {
             variant="glass"
             size="sm"
             className="hidden md:inline-flex"
+            onClick={handleLogout}
+            disabled={logoutMutation.isPending}
           >
-            Logout
+             <LogOut className="h-4 w-4" />
+              {logoutMutation.isPending ? "Logging out..." : "Logout"}
           </Button>
 
           <Button

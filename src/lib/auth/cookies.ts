@@ -32,6 +32,10 @@ export async function getAccessTokenCookie(): Promise<string | undefined> {
     const accessTokenCookie = cookieStore.get("access_token");
     return accessTokenCookie?.value;
 }
+export async function clearAccessTokenCookie () {
+    const cookieStore = await cookies();
+    cookieStore.delete("access_token");
+}
  export async function clearRefreshTokenCookie () {
     const cookieStore = await cookies();
     cookieStore.delete("refresh_token");

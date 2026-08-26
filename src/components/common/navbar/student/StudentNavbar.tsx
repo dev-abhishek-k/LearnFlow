@@ -2,11 +2,24 @@
 
 import Link from "next/link";
 import { BookOpen, Menu } from "lucide-react";
-
+import {useRouter} from "next/navigation";
+import { useLogout } from "@/modules/auth/hooks/use-logout";  
+import { LogOut } from "lucide-react";
 import Button from "@/components/common/button/Button";
 import { studentNavItems } from "@/components/common/navbar/student/student-nav-items";
 
 const StudentNavbar = () => {
+  const router = useRouter();
+  const logoutMutation = useLogout();
+  const handleLogout = async () => {
+     try {
+      await logoutMutation.mutateAsync();
+      router.push("/login");
+      router.refresh();  
+    } catch (error) {
+      console.error(error);
+    }
+  }
   return (
     <header className="sticky top-0 z-50 w-full px-4 pt-4 sm:px-6 lg:px-8">
       <nav
@@ -114,8 +127,10 @@ const StudentNavbar = () => {
             variant="glass"
             size="sm"
             className="hidden md:inline-flex"
+            onClick={handleLogout}
           >
-            Logout
+            <LogOut className="h-5 w-5" />
+          {logoutMutation.isPending ? "Logging out..." : "Logout"}  
           </Button>
 
           <Button
