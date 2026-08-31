@@ -12,7 +12,7 @@ export const adminNavItems = [
     href: "/admin/courses",
   },
   {
-    label: "Create Category",
-    href: "/admin/categories/create",
+    label: "Category",
+    href: "/admin/categories",
   },
 ];
