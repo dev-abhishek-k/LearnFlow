@@ -1,10 +1,11 @@
 
 import { CategoryInput, CategoryUpdateInput } from "@/modules/category/category.schema";
 const CATEGORY_API = "/api/admin/categories";
+const CATEGORY_READ_API = "/api/teacher/categories";
 
 // Get all categories
 export async function getCategories() {
-  const response = await fetch(CATEGORY_API, {
+  const response = await fetch(CATEGORY_READ_API, {
     method: "GET",
     credentials: "include",
   });

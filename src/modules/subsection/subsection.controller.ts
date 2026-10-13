@@ -5,23 +5,22 @@ import {validateRequest} from "@/lib/validator";
 import{createSubsectionSchema,updateSubsectionSchema} from "@/modules/subsection/index";
 
 class SubSectionController{
-    async createSubSection(request:Request) {
+    async createSubSection(courseId:string,sectionId:string,request:Request) {
         const body = await validateRequest(request, createSubsectionSchema);
-        console.log("body",body);
-        const response = await subsectionService.createSubSection(body);
+        const response = await subsectionService.createSubSection(courseId,sectionId,body);
         return ApiResponse.ok(SUBSECTION_MESSAGES.SUBSECTION_CREATED, response);
     }
-    async updateSubSection(subsectionId: string, request: Request) {
+    async updateSubSection(courseId:string,sectionId:string,subsectionId: string, request: Request) {
         const body = await validateRequest(request, updateSubsectionSchema);
-        const response = await subsectionService.updateSubSection(subsectionId, body);
+        const response = await subsectionService.updateSubSection(courseId,sectionId,subsectionId, body);
         return ApiResponse.ok(SUBSECTION_MESSAGES.SUBSECTION_UPDATED, response);
     }   
-    async getAllSubSection() {
-        const response = await subsectionService.getAllSubSection();
+    async getAllSubSection(courseId:string,sectionId:string) {
+        const response = await subsectionService.getAllSubSection(courseId,sectionId);
         return ApiResponse.ok(SUBSECTION_MESSAGES.SUBSECTION_FETCHED, response);
     }
-    async deleteSubSection(subsectionId: string) {
-        const response = await subsectionService.deleteSubSection(subsectionId);
+    async deleteSubSection(courseId:string,sectionId:string,subsectionId: string) {
+        const response = await subsectionService.deleteSubSection(courseId,sectionId,subsectionId);
         return ApiResponse.ok(SUBSECTION_MESSAGES.SUBSECTION_DELETED, response);
     }   
 }

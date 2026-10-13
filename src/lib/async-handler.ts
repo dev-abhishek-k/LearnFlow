@@ -35,7 +35,10 @@ export function asyncHandler<T = Record<string, string>>(
 
       console.error(error);
 
-      throw ApiError.internalServerError("Internal server error");
+      return NextResponse.json(
+        { success: false, message: "Internal server error" },
+        { status: 500 },
+      );
     }
   };
 }

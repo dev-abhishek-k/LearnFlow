@@ -26,11 +26,13 @@ export async function loginUser(data: LoginInput) {
     body: JSON.stringify(data),
   }); 
 
-  const result = await response.json(); 
+  const result = await response.json().catch(() => null);
 
   if (!response.ok) {
-    throw new Error(result.message || "Login failed");
+    throw new Error(result?.message || "Login failed");
   }
+
+  if (!result) throw new Error("Invalid login response");
 
   return result;
 }

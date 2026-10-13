@@ -22,6 +22,7 @@ model User {
   sessions            Session[]
   verificationtokens  VerficationToken[]
   courses             Course[]             @relation("TeacherCourses")
+  enrollments         Enrollment[]
 }
 
 model Session {
@@ -66,11 +67,16 @@ enum Role {
 
 model Category {
   id        String   @id @default(cuid())
-  name      String
+  name      String   @unique
   slug      String   @unique
+  description String?
+  imageUrl    String?
+  isActive    Boolean  @default(true)
   courses   Course[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([isActive, name])
 }
 
 model Course {
@@ -80,6 +86,10 @@ model Course {
   slug        String  @unique
   description String
   thumbnail   String?
+  shortDescription    String?
+  thumbnailUrl        String?
+  bannerImageUrl      String?
+  introductoryVideoUrl String?
   price       Decimal @db.Decimal(10, 2)
 
   level    CourseLevel
@@ -87,13 +97,17 @@ model Course {
   status   CourseStatus @default(DRAFT)
 
   categoryId String
-  category   Category @relation(fields: [categoryId], references: [id])
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)
 
   teacherId String
-  teacher   User   @relation("TeacherCourses", fields: [teacherId], references: [id])
+  teacher   User   @relation("TeacherCourses", fields: [teacherId], references: [id], onDelete: Restrict)
    Sections   Section[]
+  enrollments Enrollment[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([teacherId, createdAt])
+  @@index([categoryId, status])
 }
 
 enum CourseStatus {
@@ -109,21 +123,63 @@ enum CourseLevel {
 model Section {
   id        String   @id @default(cuid())
   title     String
+  description String?
   order     Int
+  position  Int      @default(0)
   courseId  String
   subSections SubSection[]
   course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([courseId, position])
+  @@unique([courseId, position])
 }
 model SubSection {
   id          String   @id @default(cuid())
   title       String
   description String?
   videoUrl    String?
+  imageUrl    String?
+  content     String?
   order       Int
+  position    Int      @default(0)
   sectionId   String
+  lessons     Lesson[]
   section     Section  @relation(fields: [sectionId], references: [id], onDelete: Cascade)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  @@index([sectionId, position])
+  @@unique([sectionId, position])
+}
+
+model Lesson {
+  id              String     @id @default(cuid())
+  subsectionId    String
+  subsection      SubSection @relation(fields: [subsectionId], references: [id], onDelete: Cascade)
+  title           String
+  description     String?
+  content         String?
+  videoUrl        String?
+  imageUrl        String?
+  durationSeconds Int?
+  isPreview       Boolean    @default(false)
+  position        Int
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+
+  @@index([subsectionId, position])
+}
+
+model Enrollment {
+  id        String   @id @default(cuid())
+  userId    String
+  courseId  String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, courseId])
+  @@index([courseId])
 }

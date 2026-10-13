@@ -1,6 +1,11 @@
 import {asyncHandler} from "@/lib/async-handler";
 import { courseController } from "@/modules/course";
 
+export const GET=asyncHandler(async(_request,context)=>{
+     const {courseId}=await context.params;
+     return courseController.getCourse(courseId);
+})
+
 export const PATCH=asyncHandler(async(request,context)=>{
      const {courseId}=await context.params
     return courseController.updateCourse(courseId,request);

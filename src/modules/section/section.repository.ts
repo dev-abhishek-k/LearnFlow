@@ -7,8 +7,12 @@ class SectionRepository {
   ): Promise<Section> {
     return prisma.section.create({ data });
   }
-  async getAllSection(): Promise<Section[]> {
-    return prisma.section.findMany();
+  async maxPosition(courseId: string): Promise<number> {
+    const result = await prisma.section.aggregate({ where: { courseId }, _max: { position: true } });
+    return result._max.position ?? 0;
+  }
+  async getAllSection(courseId: string): Promise<Section[]> {
+    return prisma.section.findMany({where:{courseId},orderBy:{order:"asc"}});
   }
   async getSectionById(id: string) {
     return prisma.section.findUnique({
@@ -26,7 +30,7 @@ class SectionRepository {
   }
   async updateSection(
     id: string,
-    data: Prisma.SectionUpdateInput,
+    data: Prisma.SectionUncheckedUpdateInput,
   ): Promise<Section | null> {
     return prisma.section.update({ where: { id }, data });
   }

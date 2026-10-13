@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const createCourseSchema = z.object({
+const courseDetailsSchema = z.object({
   title: z.string().min(3).max(150),
 
   description: z.string().min(20),
@@ -19,8 +19,9 @@ export const createCourseSchema = z.object({
 
   categoryId: z.string().cuid(),
 });
-export const updateCourseSchema =
-  createCourseSchema.partial();
+
+export const createCourseSchema = courseDetailsSchema;
+export const updateCourseSchema = courseDetailsSchema.partial();
   export const publishCourseSchema = z.object({
   status: z.enum([
     "DRAFT",

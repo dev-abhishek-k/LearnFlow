@@ -4,22 +4,22 @@ import { validateRequest } from "@/lib/validator";
 import { createSectionSchema,updateSectionSchema,SECTION_MESSAGES ,sectionService} from "./index"; 
 
 class SectionController{
-    async createSection(request: NextRequest) {
+    async createSection(courseId:string,request: NextRequest) {
         const body = await validateRequest(request, createSectionSchema);
-        const section = await sectionService.createSection(body);
+        const section = await sectionService.createSection(courseId,body);
         return ApiResponse.ok(SECTION_MESSAGES.SECTION_CREATED, section);
     }
-    async getAllSection() {
-        const section = await sectionService.getAllSection();
+    async getAllSection(courseId:string) {
+        const section = await sectionService.getAllSection(courseId);
         return ApiResponse.ok(SECTION_MESSAGES.SECTION_FETCHED, section);
     }
-    async updateSection(id: string, request: NextRequest) {
+    async updateSection(courseId:string,id: string, request: NextRequest) {
             const body = await validateRequest(request, updateSectionSchema);
-            const section = await sectionService.updateSection(id, body);
+            const section = await sectionService.updateSection(courseId,id, body);
             return ApiResponse.ok(SECTION_MESSAGES.SECTION_UPDATED, section);
     }
-    async deleteSection(id: string) {
-        const section = await sectionService.deleteSection(id);
+    async deleteSection(courseId:string,id: string) {
+        const section = await sectionService.deleteSection(courseId,id);
         return ApiResponse.ok(SECTION_MESSAGES.SECTION_DELETED, section);
     }
 }
