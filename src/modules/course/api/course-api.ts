@@ -10,6 +10,8 @@ export interface Course {
   status: "DRAFT" | "PUBLISHED" | "ARCHIVED";
   categoryId: string;
   thumbnail: string | null;
+  thumbnailUrl?: string | null;
+  shortDescription?: string | null;
 }
 
 const endpoint = "/api/teacher/course";
