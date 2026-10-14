@@ -22,6 +22,9 @@ class CourseService{
     async getAllCourse(teacherId:string):Promise<Course[]>{
         return courseRepository.getAllCourse(teacherId);
     }
+    async getPublishedCourses():Promise<Course[]>{
+        return courseRepository.getPublishedCourses();
+    }
     async getOwnedCourse(courseId:string,teacherId:string):Promise<Course>{
         const course = await courseRepository.getCourseById(courseId);
         if (!course) throw new ApiError(COURSE_MESSAGES.COURSE_NOT_FOUND, HTTP_STATUS.NOT_FOUND);

@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BookOpen, Menu } from "lucide-react";
+import { useState } from "react";
+import { BookOpen, Menu, X } from "lucide-react";
 
 const navItems = [
   {
@@ -25,6 +26,7 @@ const navItems = [
 
 const PublicNavbar = () => {
   const pathname = usePathname();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <header className="sticky top-0 z-50 w-full px-4 pt-4 sm:px-6 lg:px-8">
@@ -408,10 +410,19 @@ const PublicNavbar = () => {
             md:hidden
           "
           aria-label="Open menu"
+          aria-expanded={menuOpen}
+          aria-controls="public-mobile-menu"
+          onClick={() => setMenuOpen((open) => !open)}
         >
-          <Menu className="h-5 w-5" />
+          {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
       </nav>
+      {menuOpen && <div id="public-mobile-menu" className="mx-auto mt-2 flex max-w-7xl flex-col gap-1 rounded-2xl border border-white/10 bg-slate-950/95 p-3 shadow-xl backdrop-blur-xl md:hidden">
+        {navItems.map((item) => <Link key={item.href} href={item.href} onClick={() => setMenuOpen(false)} className={`rounded-xl px-4 py-3 text-sm font-medium ${pathname === item.href ? "bg-white/10 text-cyan-300" : "text-white/70 hover:bg-white/5 hover:text-white"}`}>{item.label}</Link>)}
+        <div className="my-1 border-t border-white/10" />
+        <Link href="/login" onClick={() => setMenuOpen(false)} className="rounded-xl px-4 py-3 text-sm font-medium text-white/70 hover:bg-white/5">Login</Link>
+        <Link href="/register" onClick={() => setMenuOpen(false)} className="rounded-xl bg-gradient-to-r from-cyan-400 via-blue-500 to-violet-600 px-4 py-3 text-center text-sm font-semibold text-white">Register</Link>
+      </div>}
     </header>
   );
 };

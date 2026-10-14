@@ -28,3 +28,11 @@ export async function getCurrentTeacherPayload() {
   }
   return payload;
 }
+
+export async function getCurrentStudentPayload() {
+  const payload = await getCurrentUserPayload();
+  if (payload.role !== Role.STUDENT) {
+    throw new ApiError("Student access required", HTTP_STATUS.FORBIDDEN);
+  }
+  return payload;
+}

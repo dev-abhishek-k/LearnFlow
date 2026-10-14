@@ -13,6 +13,9 @@ class CourseRepository{
      async getAllCourse(teacherId:string):Promise<Course[]>{
           return prisma.course.findMany({where:{teacherId},orderBy:{createdAt:"desc"}})
      }
+     async getPublishedCourses():Promise<Course[]>{
+          return prisma.course.findMany({where:{status:"PUBLISHED"},orderBy:{createdAt:"desc"}})
+     }
      async getCourseById(courseId:string):Promise<Course | null>{
           return prisma.course.findUnique({where:{id:courseId}})
      }

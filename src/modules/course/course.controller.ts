@@ -4,7 +4,7 @@ import {NextRequest} from "next/server";
 import { validateRequest } from "@/lib/validator";
 import {createCourseSchema,updateCourseSchema,} from "./index"
 import {courseService} from './index'
-import {getCurrentTeacherPayload} from "@/lib/auth/current_user";
+import {getCurrentStudentPayload, getCurrentTeacherPayload} from "@/lib/auth/current_user";
 class CourseController{
    async createCourse(request:NextRequest){
       const payload=await getCurrentTeacherPayload();
@@ -17,6 +17,11 @@ class CourseController{
        const payload=await getCurrentTeacherPayload();
        const course=await courseService.getAllCourse(payload.id);
        return ApiResponse.ok(COURSE_MESSAGES.COURSE_FETCHED,course);
+   }
+   async getAllStudentCourses(){
+       await getCurrentStudentPayload();
+       const courses=await courseService.getPublishedCourses();
+       return ApiResponse.ok(COURSE_MESSAGES.COURSE_FETCHED,courses);
    }
    async getCourse(courseId:string){
        const payload=await getCurrentTeacherPayload();

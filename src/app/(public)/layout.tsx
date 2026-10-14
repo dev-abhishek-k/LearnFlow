@@ -1,4 +1,5 @@
 import PublicNavbar from "@/components/common/navbar/public/PublicNavbar";
+import Footer from "@/components/common/footer";
 
 export default function PublicLayout({
   children,
@@ -80,6 +81,8 @@ export default function PublicLayout({
       <main className="relative z-10">
         {children}
       </main>
+
+      <Footer />
 
     </div>
   );
