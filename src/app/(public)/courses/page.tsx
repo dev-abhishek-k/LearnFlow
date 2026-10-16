@@ -1,4 +1,5 @@
 import { BookOpen, Globe2, Layers3 } from "lucide-react";
+import Image from "next/image";
 import { prisma } from "@/lib/prisma";
 
 export default async function CoursesPage() {
@@ -31,7 +32,7 @@ export default async function CoursesPage() {
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={course.thumbnail} alt="" className="h-full w-full object-cover" />
                 ) : (
-                  <BookOpen className="h-12 w-12 text-cyan-300/70" />
+                  <Image src="/image/course.jfif" alt="" width={483} height={466} className="h-full w-full object-cover" />
                 )}
               </div>
               <div className="space-y-4 p-6">
